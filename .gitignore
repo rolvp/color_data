@@ -1,0 +1,12 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Local databases
+*.db
+
+# Temporary upload files
+uploads/tmp_*
+
+# OS files
+.DS_Store

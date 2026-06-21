@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="page-brand" aria-label="页面品牌区">
+  <a class="page-logo" href="/" aria-label="返回首页">
+    <img src="/assets/3m-logo" alt="3M logo">
+  </a>
+  <div class="page-brand-title">汽车改色膜老化测试数据库</div>
+</div>
+
+<div class="app-container">
+
+  <button class="sidebar-toggle" id="sidebarToggleBtn" type="button" aria-label="隐藏侧边栏">&lt;&lt;</button>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title-group">
+        <img class="sidebar-title-icon" src="/static/data-entry.svg" alt="数据入口图标">
+        <h1 class="app-title">数据入口</h1>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" class="search-input" placeholder="搜索样品名称/编号...">
+      <button id="searchBtn" class="btn btn-sm btn-primary">搜索</button>
+    </div>
+
+    <div class="sample-list" id="sampleList">
+      <div class="empty-state" id="sidebarEmpty">
+        <p>暂无样品</p>
+        <p class="text-muted">点击下方按钮创建</p>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-actions">
+        <button id="addSampleBtn" class="btn btn-primary btn-full">+ 新建样品</button>
+        <button id="importBtn" class="btn btn-outline btn-full">📥 导入数据</button>
+      </div>
+      <div class="sidebar-stats" id="sidebarStats">
+        <div class="sidebar-stat-row">
+          <span id="totalSamplesText">样品总数：0</span>
+          <button id="showAllSamplesBtn" class="btn btn-outline btn-sm sidebar-stat-action">显示所有样品</button>
+        </div>
+        <div class="sidebar-stat-row">
+          <span id="totalMeasurementsText">测量记录总数：0</span>
+          <button id="showAllMeasurementsBtn" class="btn btn-outline btn-sm sidebar-stat-action">显示所有记录</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+    <section class="aging-filter-panel" aria-label="老化方式筛选">
+      <div class="aging-filter-card" role="button" tabindex="0" data-aging-filter="xenon">
+        <div class="aging-filter-card-inner">
+          <span class="aging-filter-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" role="img">
+            <circle cx="32" cy="32" r="13" fill="#f59e0b"></circle>
+            <g stroke="#f59e0b" stroke-width="4" stroke-linecap="round">
+              <line x1="32" y1="6" x2="32" y2="16"></line>
+              <line x1="32" y1="48" x2="32" y2="58"></line>
+              <line x1="6" y1="32" x2="16" y2="32"></line>
+              <line x1="48" y1="32" x2="58" y2="32"></line>
+              <line x1="13" y1="13" x2="20" y2="20"></line>
+              <line x1="44" y1="44" x2="51" y2="51"></line>
+              <line x1="13" y1="51" x2="20" y2="44"></line>
+              <line x1="44" y1="20" x2="51" y2="13"></line>
+            </g>
+          </svg>
+        </span>
+          <div class="aging-filter-copy">
+            <strong>氙灯老化</strong>
+            <span>FS41 / 氙灯老化方式</span>
+          </div>
+        </div>
+      </div>
+      <div class="aging-filter-card" role="button" tabindex="0" data-aging-filter="double85">
+        <div class="aging-filter-card-inner">
+          <span class="aging-filter-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" role="img">
+            <rect x="12" y="8" width="40" height="48" rx="16" fill="#0f766e"></rect>
+            <path d="M24 18h10v20a8 8 0 1 1-10 0V18Z" fill="#ccfbf1"></path>
+            <circle cx="26" cy="42" r="5" fill="#14b8a6"></circle>
+            <path d="M42 22c4 5 4 11 0 16" fill="none" stroke="#99f6e4" stroke-width="4" stroke-linecap="round"></path>
+            <path d="M47 18c6 7 6 17 0 24" fill="none" stroke="#5eead4" stroke-width="4" stroke-linecap="round"></path>
+          </svg>
+        </span>
+          <div class="aging-filter-copy">
+            <strong>双85</strong>
+            <span>85-85</span>
+          </div>
+        </div>
+      </div>
+      <div class="aging-filter-card" role="button" tabindex="0" data-aging-filter="uv">
+        <div class="aging-filter-card-inner">
+          <span class="aging-filter-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" role="img">
+            <rect x="10" y="14" width="44" height="36" rx="14" fill="#2563eb"></rect>
+            <path d="M18 32c4-6 8-9 14-9 7 0 10 4 14 9-4 6-8 9-14 9-7 0-10-4-14-9Z" fill="#dbeafe"></path>
+            <circle cx="32" cy="32" r="5" fill="#2563eb"></circle>
+            <path d="M24 10l4 7M32 8v8M40 10l-4 7" fill="none" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"></path>
+          </svg>
+        </span>
+          <div class="aging-filter-copy">
+            <strong>紫外老化</strong>
+            <span>G154 / WR20</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="empty-state large" id="mainEmpty">
+      <div class="empty-icon">📋</div>
+      <h2>选择一个样品开始</h2>
+      <p class="text-muted">从左侧列表选择样品，或创建新样品</p>
+    </div>
+
+    <div class="overview-container" id="overviewContainer" style="display:none;">
+      <div class="card" id="allSamplesCard" style="display:none;">
+        <div class="card-header">
+          <h3>全部样品</h3>
+        </div>
+        <div class="card-body">
+          <div class="table-wrap">
+            <table class="data-table overview-table">
+              <thead>
+                <tr>
+                  <th>样品名称</th>
+                  <th>样品编号</th>
+                  <th>品牌</th>
+                  <th>型号</th>
+                  <th>老化条件</th>
+                  <th>老化时间</th>
+                  <th>更新时间</th>
+                </tr>
+              </thead>
+              <tbody id="allSamplesTbody">
+                <tr class="empty-row">
+                  <td colspan="7">暂无样品数据</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="allMeasurementsCard" style="display:none;">
+        <div class="card-header">
+          <h3>全部测量记录</h3>
+        </div>
+        <div class="card-body">
+          <div class="table-wrap">
+            <table class="data-table overview-table">
+              <thead>
+                <tr>
+                  <th>样品名称</th>
+                  <th>样品编号</th>
+                  <th>品牌</th>
+                  <th>型号</th>
+                  <th>老化条件</th>
+                  <th>老化时间</th>
+                  <th>记录时间</th>
+                </tr>
+              </thead>
+              <tbody id="allMeasurementsTbody">
+                <tr class="empty-row">
+                  <td colspan="7">暂无测量记录</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-container" id="detailContainer" style="display:none;">
+
+      <!-- Tabs -->
+      <nav class="tabs">
+        <button class="tab active" data-tab="details">📝 样品详情</button>
+        <button class="tab" data-tab="measurements">📊 测量记录</button>
+        <button class="tab" data-tab="photos">📷 照片管理</button>
+        <button class="tab" data-tab="charts">📈 老化趋势</button>
+        <button class="tab" data-tab="compare">📶 数据对比</button>
+      </nav>
+
+      <!-- Tab: Details -->
+      <section class="tab-content active" id="tab-details">
+        <div class="card" id="detailsCard">
+          <div class="card-header">
+            <h3 id="detailSampleName">样品名称</h3>
+            <div class="card-actions">
+                <button class="btn btn-outline btn-sm" id="downloadTemplateBtn">下载上传模板</button>
+              <button class="btn btn-outline btn-sm" id="editSampleBtn">✏️ 编辑</button>
+              <button class="btn btn-danger btn-sm" id="deleteSampleBtn">🗑 删除</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="detailSections"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab: Measurements -->
+      <section class="tab-content" id="tab-measurements">
+        <div class="card">
+          <div class="card-header">
+            <h3>测量记录</h3>
+            <button class="btn btn-primary btn-sm" id="addMeasurementBtn">+ 添加测量</button>
+          </div>
+          <div class="card-body">
+            <div class="table-wrap">
+              <table class="data-table" id="measurementsTable">
+                <thead>
+                  <tr>
+                    <th>老化(h)</th>
+                    <th>日期</th>
+                    <th>设备</th>
+                    <th>角度</th>
+                    <th>L*</th>
+                    <th>a*</th>
+                    <th>b*</th>
+                    <th>ΔE</th>
+                    <th>备注</th>
+                    <th>照片</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="measurementsTbody">
+                  <tr class="empty-row">
+                    <td colspan="8">暂无测量数据</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab: Photos -->
+      <section class="tab-content" id="tab-photos">
+        <div class="card">
+          <div class="card-header">
+            <h3>照片管理</h3>
+            <button class="btn btn-primary btn-sm" id="uploadPhotoBtn">📤 上传照片</button>
+          </div>
+          <div class="card-body">
+            <div class="upload-zone" id="uploadZone">
+              <div class="upload-hint">
+                <span class="upload-icon">📁</span>
+                <p>拖拽文件到此处，或点击上方按钮上传</p>
+                <p class="text-muted">支持 JPG、PNG、GIF、WebP、BMP，最大 10MB</p>
+              </div>
+            </div>
+            <div class="photo-gallery" id="photoGallery">
+              <div class="empty-state" id="photosEmpty">
+                <p>暂无照片</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab: Charts -->
+      <section class="tab-content" id="tab-charts">
+        <div class="card">
+          <div class="card-header">
+            <h3>老化趋势图</h3>
+          </div>
+          <div class="card-body">
+            <div class="empty-state" id="chartEmpty" style="display:none;">
+              <p>需要至少 1 条测量数据才能显示图表</p>
+            </div>
+            <div id="chartsContent">
+              <!-- Sample name above charts -->
+              <div class="chart-sample-name" id="chartSampleName"></div>
+              <div class="chart-angle-filter" id="chartAngleControls" style="display:none;"></div>
+              <!-- Row 1: L*, a*, b* side by side -->
+              <div class="charts-row-3" id="chartsRowLab">
+                <div class="chart-box">
+                  <div class="chart-box-head">
+                    <div class="chart-legend" id="chartLLegend"></div>
+                  </div>
+                  <div class="chart-canvas-wrap">
+                    <canvas id="chartL"></canvas>
+                  </div>
+                </div>
+                <div class="chart-box">
+                  <div class="chart-box-head">
+                    <div class="chart-legend" id="chartALegend"></div>
+                  </div>
+                  <div class="chart-canvas-wrap">
+                    <canvas id="chartA"></canvas>
+                  </div>
+                </div>
+                <div class="chart-box">
+                  <div class="chart-box-head">
+                    <div class="chart-legend" id="chartBLegend"></div>
+                  </div>
+                  <div class="chart-canvas-wrap">
+                    <canvas id="chartB"></canvas>
+                  </div>
+                </div>
+              </div>
+              <!-- Row 2: Delta E full width -->
+              <div class="charts-row-1" id="chartsRowDeltaE">
+                <div class="chart-box chart-box-wide">
+                  <div class="chart-box-head">
+                    <div class="chart-legend" id="chartDeltaELegend"></div>
+                  </div>
+                  <div class="chart-canvas-wrap">
+                    <canvas id="chartDeltaE"></canvas>
+                  </div>
+                </div>
+              </div>
+              <!-- Row 3: Color gradient bars per angle -->
+              <div class="color-bars-container" id="colorBarsContainer"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-content" id="tab-compare">
+        <div class="card">
+          <div class="card-header">
+            <h3>数据对比</h3>
+          </div>
+          <div class="card-body">
+            <div class="empty-state" id="compareEmpty">
+              <p>请先在测量记录中点击“对比”按钮</p>
+              <p class="text-muted">最多支持同时对比 3 组 MT12 六角度数据</p>
+            </div>
+            <div id="compareContent" style="display:none;">
+              <div class="compare-summary" id="compareSummary"></div>
+              <div class="compare-records-block">
+                <div class="compare-records-head">
+                  <div class="compare-records-title-group">
+                    <h4>已选对比记录</h4>
+                    <span class="compare-records-count" id="compareRecordsCount"></span>
+                  </div>
+                  <button type="button" class="btn btn-outline btn-sm compare-clear-btn" id="compareClearBtn">清除所有选择</button>
+                </div>
+                <div class="compare-records-grid" id="compareRecordsGrid"></div>
+              </div>
+              <div class="compare-charts-grid">
+                <div class="chart-box">
+                  <div class="chart-canvas-wrap compare-chart-wrap">
+                    <canvas id="compareChartL"></canvas>
+                  </div>
+                </div>
+                <div class="chart-box">
+                  <div class="chart-canvas-wrap compare-chart-wrap">
+                    <canvas id="compareChartA"></canvas>
+                  </div>
+                </div>
+                <div class="chart-box">
+                  <div class="chart-canvas-wrap compare-chart-wrap">
+                    <canvas id="compareChartB"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" id="modalOverlay" style="display:none;">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">标题</h3>
+      <button class="modal-close" id="modalClose">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" style="display:none;">
+  <button class="lightbox-close" id="lightboxClose">&times;</button>
+  <img src="" alt="" id="lightboxImg">
+  <div class="lightbox-info" id="lightboxInfo"></div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<footer class="page-footer">
+  <span>© 3M 2026. All Rights Reserved.    3M Confidential.</span>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
